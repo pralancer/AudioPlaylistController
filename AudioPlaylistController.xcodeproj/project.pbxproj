@@ -14,12 +14,8 @@
 		3E0A4F201C4416BB00C00EC0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E0A4F1E1C4416BB00C00EC0 /* LaunchScreen.storyboard */; };
 		3E0A4F2B1C4416BB00C00EC0 /* AudioPlaylistControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0A4F2A1C4416BB00C00EC0 /* AudioPlaylistControllerTests.swift */; };
 		3E0A4F361C4416BB00C00EC0 /* AudioPlaylistControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0A4F351C4416BB00C00EC0 /* AudioPlaylistControllerUITests.swift */; };
-		3E70C2881C454D1C004217BB /* PKAudioPlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E70C2861C454D1C004217BB /* PKAudioPlaylistController.swift */; };
-		3E70C2891C454D1C004217BB /* PKAudioPlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E70C2861C454D1C004217BB /* PKAudioPlaylistController.swift */; };
-		3E70C28A1C454D1C004217BB /* PKAudioPlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E70C2861C454D1C004217BB /* PKAudioPlaylistController.swift */; };
-		3E70C28B1C454D1C004217BB /* PKAudioPlaylistController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E70C2871C454D1C004217BB /* PKAudioPlaylistController.xib */; };
-		3E70C28C1C454D1C004217BB /* PKAudioPlaylistController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E70C2871C454D1C004217BB /* PKAudioPlaylistController.xib */; };
-		3E70C28D1C454D1C004217BB /* PKAudioPlaylistController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E70C2871C454D1C004217BB /* PKAudioPlaylistController.xib */; };
+		3E70C3651C4571EC004217BB /* PKAudioPlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E70C3631C4571EC004217BB /* PKAudioPlaylistController.swift */; };
+		3E70C3661C4571EC004217BB /* PKAudioPlaylistController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E70C3641C4571EC004217BB /* PKAudioPlaylistController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,8 +49,8 @@
 		3E0A4F311C4416BB00C00EC0 /* AudioPlaylistControllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioPlaylistControllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E0A4F351C4416BB00C00EC0 /* AudioPlaylistControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlaylistControllerUITests.swift; sourceTree = "<group>"; };
 		3E0A4F371C4416BB00C00EC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3E70C2861C454D1C004217BB /* PKAudioPlaylistController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKAudioPlaylistController.swift; sourceTree = "<group>"; };
-		3E70C2871C454D1C004217BB /* PKAudioPlaylistController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PKAudioPlaylistController.xib; sourceTree = "<group>"; };
+		3E70C3631C4571EC004217BB /* PKAudioPlaylistController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PKAudioPlaylistController.swift; path = PKAudioPlaylistController/PKAudioPlaylistController.swift; sourceTree = SOURCE_ROOT; };
+		3E70C3641C4571EC004217BB /* PKAudioPlaylistController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PKAudioPlaylistController.xib; path = PKAudioPlaylistController/PKAudioPlaylistController.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,8 +133,8 @@
 		3E70C28E1C454D1F004217BB /* PKAudioPlayerController */ = {
 			isa = PBXGroup;
 			children = (
-				3E70C2861C454D1C004217BB /* PKAudioPlaylistController.swift */,
-				3E70C2871C454D1C004217BB /* PKAudioPlaylistController.xib */,
+				3E70C3631C4571EC004217BB /* PKAudioPlaylistController.swift */,
+				3E70C3641C4571EC004217BB /* PKAudioPlaylistController.xib */,
 			);
 			name = PKAudioPlayerController;
 			sourceTree = "<group>";
@@ -249,7 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E0A4F201C4416BB00C00EC0 /* LaunchScreen.storyboard in Resources */,
-				3E70C28B1C454D1C004217BB /* PKAudioPlaylistController.xib in Resources */,
+				3E70C3661C4571EC004217BB /* PKAudioPlaylistController.xib in Resources */,
 				3E0A4F1D1C4416BB00C00EC0 /* Assets.xcassets in Resources */,
 				3E0A4F1B1C4416BB00C00EC0 /* Main.storyboard in Resources */,
 			);
@@ -259,7 +255,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E70C28C1C454D1C004217BB /* PKAudioPlaylistController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +262,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E70C28D1C454D1C004217BB /* PKAudioPlaylistController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E0A4F181C4416BB00C00EC0 /* ViewController.swift in Sources */,
-				3E70C2881C454D1C004217BB /* PKAudioPlaylistController.swift in Sources */,
+				3E70C3651C4571EC004217BB /* PKAudioPlaylistController.swift in Sources */,
 				3E0A4F161C4416BB00C00EC0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,7 +283,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E0A4F2B1C4416BB00C00EC0 /* AudioPlaylistControllerTests.swift in Sources */,
-				3E70C2891C454D1C004217BB /* PKAudioPlaylistController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,7 +291,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E0A4F361C4416BB00C00EC0 /* AudioPlaylistControllerUITests.swift in Sources */,
-				3E70C28A1C454D1C004217BB /* PKAudioPlaylistController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,7 +420,7 @@
 				INFOPLIST_FILE = AudioPlaylistController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Robosoft.AudioPlaylistController;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pralancer.AudioPlaylistController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -441,7 +433,7 @@
 				INFOPLIST_FILE = AudioPlaylistController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Robosoft.AudioPlaylistController;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pralancer.AudioPlaylistController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
