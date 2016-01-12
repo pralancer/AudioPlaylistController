@@ -8,7 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <viewController title="My Playlist" id="oHS-dT-fCD" customClass="PKAudioPlaylistController" customModule="MPMediaPickerControllerTest" customModuleProvider="target">
+        <viewController title="My Playlist" id="oHS-dT-fCD" customClass="PKAudioPlaylistController" customModule="AudioPlaylistController" customModuleProvider="target">
             <layoutGuides>
                 <viewControllerLayoutGuide type="top" id="i3e-lc-RFl"/>
                 <viewControllerLayoutGuide type="bottom" id="15r-MR-B6X"/>

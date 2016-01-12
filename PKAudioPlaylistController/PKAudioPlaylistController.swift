@@ -1,3 +1,21 @@
+/*
+
+Copyright (c) 2016 Pralancer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to 
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to 
+whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+*/
+
 import UIKit
 import MediaPlayer
 
@@ -27,7 +45,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
         }
         return 0
     }
-    var player = MPMusicPlayerController.systemMusicPlayer() //Music Player to use. Default is the systemMusicPlayer
+    weak var player:MPMusicPlayerController! = MPMusicPlayerController.systemMusicPlayer() //Music Player to use. Default is the systemMusicPlayer
     var allowMultiplesItems=true //allow multiple item selection
     var showsCloudItems = true //show show cloud items
     var musicPickerPrompt = "Add Music" //prompt for the media picker view controller
@@ -112,13 +130,13 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
     
     func playbackStateChanged(notification:NSNotification)
     {
-        print("playbackStateChanged = \(notification)")
+//        print("playbackStateChanged = \(notification)")
         updatePlayerControls() //update the playback controls
     }
     
     func nowPlayingItemChanged(notification:NSNotification)
     {
-        print("nowPlayingItemChanged = \(notification)")
+//        print("nowPlayingItemChanged = \(notification)")
         updatePlaylistTable()
     }
 
@@ -141,8 +159,17 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
                         playingItem = self.player.nowPlayingItem
                         {
                             //set the current playback time to the accessory label and the bar button item
-                            cell.accessoryView = cell.labelForPlayTime(playingItem.playbackDuration - self.player.currentPlaybackTime)
-                            self.playbackDurationBarButton.title = (playingItem.playbackDuration - self.player.currentPlaybackTime).formattedTimeStr()
+                            let remaining = playingItem.playbackDuration - self.player.currentPlaybackTime
+                            if !remaining.isNaN //In rare occassions this can be a NaN. So check before converting it into a strings
+                            {
+                                cell.accessoryView = cell.labelForPlayTime(remaining)
+                                self.playbackDurationBarButton.title = remaining.formattedTimeStr()
+                            }
+                            else
+                            {
+                                print("NaN playingItem.playbackDuration = \(playingItem.playbackDuration)")
+                                print("NaN self.player.currentPlaybackTime = \(self.player.currentPlaybackTime)")
+                            }
                         }
                     }
                 }
@@ -199,6 +226,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
     
     //MARK: UI updates
     
+    /* Show or hide the table view */
     func updateUI()
     {
         if playListCount == 0
@@ -221,6 +249,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
         }
     }
 
+    /*** Updates the player controls based on the current state of the player */
     func updatePlayerControls()
     {
         switch self.player.playbackState
@@ -242,6 +271,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
         }
     }
     
+    /** Returns the index of the currently playing item if its in our queue. If not returns NSNotFound */
     func indexOfCurrentlyPlayingItem() -> Int
     {
         if let nowPlayingItem = self.player.nowPlayingItem, items = selectedMediaCollection?.items
@@ -256,6 +286,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
         return NSNotFound
     }
     
+    /*** Updates the state of the playlist table based on the currently playing item */
     func updatePlaylistTable()
     {
         let index = indexOfCurrentlyPlayingItem()
@@ -285,6 +316,8 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
     }
     
     //MARK: Model update
+
+    /** Adds a new collection to your queue, adding it at the end of the queue if one is available */
     func addMediaItemCollection(mediaItemCollection:MPMediaItemCollection)
     {
         //if our collection is empty then just assign the new collection to it
@@ -319,9 +352,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
             self.player.nowPlayingItem = mediaItems[index]
             
             //if the player was playing earlier then continue to play
-            if wasPlaying {
-                player.play()
-            }
+            player.play()
         }
     }
 }
@@ -355,7 +386,7 @@ extension PKAudioPlaylistController
 extension PKAudioPlaylistController
 {
     func mediaPickerDidCancel(mediaPicker: MPMediaPickerController) {
-        mediaPicker.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func mediaPicker(mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection)
@@ -367,10 +398,8 @@ extension PKAudioPlaylistController
                 return mediaItem1.persistentID < mediaItem2.persistentID
             })
             addMediaItemCollection(MPMediaItemCollection(items: items))
-            mediaPicker.dismissViewControllerAnimated(true) {
-                [unowned self] in
-                self.updateUI()
-            }
+            self.updateUI()
+            self.dismissViewControllerAnimated(true,completion: nil)
         }
     }
     

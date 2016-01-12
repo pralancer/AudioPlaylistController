@@ -45,14 +45,14 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
         }
         return 0
     }
-    var player = MPMusicPlayerController.systemMusicPlayer() //Music Player to use. Default is the systemMusicPlayer
+    weak var player:MPMusicPlayerController! = MPMusicPlayerController.systemMusicPlayer() //Music Player to use. Default is the systemMusicPlayer
     var allowMultiplesItems=true //allow multiple item selection
     var showsCloudItems = true //show show cloud items
     var musicPickerPrompt = "Add Music" //prompt for the media picker view controller
     var emptyCollectionPrompt:String = "Setup your empty playlist by clicking the + button" //message for empty collection
     var showSongDurationOnAlbumImage = true //determine if the song duration has to be overlaid on the album image
     var placeholderAlbumImage:UIImage! //set the default placeholder image to use if a media item does not contain album artwork
-    var persistCollection = true //indicates if the playlist has to persist between instances of this controller
+    var persistCollection = true
     
     private var playDurationTimer:dispatch_source_t!
     private var currentPlayingItemIndex = NSNotFound
@@ -130,13 +130,13 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
     
     func playbackStateChanged(notification:NSNotification)
     {
-        print("playbackStateChanged = \(notification)")
+//        print("playbackStateChanged = \(notification)")
         updatePlayerControls() //update the playback controls
     }
     
     func nowPlayingItemChanged(notification:NSNotification)
     {
-        print("nowPlayingItemChanged = \(notification)")
+//        print("nowPlayingItemChanged = \(notification)")
         updatePlaylistTable()
     }
 
@@ -159,8 +159,17 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
                         playingItem = self.player.nowPlayingItem
                         {
                             //set the current playback time to the accessory label and the bar button item
-                            cell.accessoryView = cell.labelForPlayTime(playingItem.playbackDuration - self.player.currentPlaybackTime)
-                            self.playbackDurationBarButton.title = (playingItem.playbackDuration - self.player.currentPlaybackTime).formattedTimeStr()
+                            let remaining = playingItem.playbackDuration - self.player.currentPlaybackTime
+                            if !remaining.isNaN //In rare occassions this can be a NaN. So check before converting it into a strings
+                            {
+                                cell.accessoryView = cell.labelForPlayTime(remaining)
+                                self.playbackDurationBarButton.title = remaining.formattedTimeStr()
+                            }
+                            else
+                            {
+                                print("NaN playingItem.playbackDuration = \(playingItem.playbackDuration)")
+                                print("NaN self.player.currentPlaybackTime = \(self.player.currentPlaybackTime)")
+                            }
                         }
                     }
                 }
@@ -217,6 +226,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
     
     //MARK: UI updates
     
+    /* Show or hide the table view */
     func updateUI()
     {
         if playListCount == 0
@@ -239,6 +249,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
         }
     }
 
+    /*** Updates the player controls based on the current state of the player */
     func updatePlayerControls()
     {
         switch self.player.playbackState
@@ -260,6 +271,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
         }
     }
     
+    /** Returns the index of the currently playing item if its in our queue. If not returns NSNotFound */
     func indexOfCurrentlyPlayingItem() -> Int
     {
         if let nowPlayingItem = self.player.nowPlayingItem, items = selectedMediaCollection?.items
@@ -274,6 +286,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
         return NSNotFound
     }
     
+    /*** Updates the state of the playlist table based on the currently playing item */
     func updatePlaylistTable()
     {
         let index = indexOfCurrentlyPlayingItem()
@@ -303,6 +316,8 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
     }
     
     //MARK: Model update
+
+    /** Adds a new collection to your queue, adding it at the end of the queue if one is available */
     func addMediaItemCollection(mediaItemCollection:MPMediaItemCollection)
     {
         //if our collection is empty then just assign the new collection to it
@@ -337,9 +352,7 @@ class PKAudioPlaylistController: UIViewController, MPMediaPickerControllerDelega
             self.player.nowPlayingItem = mediaItems[index]
             
             //if the player was playing earlier then continue to play
-            if wasPlaying {
-                player.play()
-            }
+            player.play()
         }
     }
 }
@@ -373,7 +386,7 @@ extension PKAudioPlaylistController
 extension PKAudioPlaylistController
 {
     func mediaPickerDidCancel(mediaPicker: MPMediaPickerController) {
-        mediaPicker.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func mediaPicker(mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection)
@@ -385,10 +398,8 @@ extension PKAudioPlaylistController
                 return mediaItem1.persistentID < mediaItem2.persistentID
             })
             addMediaItemCollection(MPMediaItemCollection(items: items))
-            mediaPicker.dismissViewControllerAnimated(true) {
-                [unowned self] in
-                self.updateUI()
-            }
+            self.updateUI()
+            self.dismissViewControllerAnimated(true,completion: nil)
         }
     }
     
